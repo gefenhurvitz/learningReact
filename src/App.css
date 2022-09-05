@@ -36,3 +36,32 @@
     transform: rotate(360deg);
   }
 }
+
+.name {
+  font-size: 50px;
+  color: rgb(186, 48, 48);
+}
+
+.age {
+  font-size: 30px;
+  color: rgb(94, 48, 186);
+}
+
+.textinput {
+  background-color: rgb(148, 148, 136);
+  margin: 20px;
+  padding: 20px;
+}
+
+.task {
+  background-color: #61dafb;
+  margin: 10px;
+  padding: 10px;
+  width: 20%;
+}
+
+.tasks {
+  background-color: antiquewhite;
+  display: inline-flex;
+  width: 70%;
+}
