@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import Task from "./Task";
 // import { User } from "./User";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
   const [newTask, setNewTask] = useState("");
 
   // todo functions
+
   const handleChange = (e) => {
     setNewTask(e.target.value);
   };
@@ -21,6 +23,7 @@ function App() {
     const task = {
       id: todoList.length === 0 ? 1 : todoList[todoList.length - 1].id + 1,
       taskName: newTask,
+      isDone: false,
     };
     setTodoList([...todoList, task]);
   };
@@ -28,6 +31,19 @@ function App() {
   const deleteTask = (id) => {
     console.log(`deleted ${id}`);
     setTodoList(todoList.filter((task) => task.id !== id));
+  };
+
+  const doneTask = (id) => {
+    console.log(`done ${id}`);
+    setTodoList(
+      todoList.map((task) => {
+        if (task.id === id) {
+          return { ...task, isDone: true };
+        } else {
+          return task;
+        }
+      })
+    );
   };
 
   return (
@@ -117,11 +133,13 @@ function App() {
         <div className="tasks">
           {todoList.map((task) => {
             return (
-              <div className="task">
-                <h1>name: {task.taskName}</h1>
-                <h1>id: {task.id}</h1>
-                <button onClick={() => deleteTask(task.id)}>delete</button>
-              </div>
+              <Task
+                isDone={task.isDone}
+                doneTask={doneTask}
+                taskName={task.taskName}
+                id={task.id}
+                deleteTask={deleteTask}
+              />
             );
           })}
         </div>
