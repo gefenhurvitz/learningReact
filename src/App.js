@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Task from "./Task";
 // import { User } from "./User";
@@ -18,6 +18,10 @@ function App() {
   const handleChange = (e) => {
     setNewTask(e.target.value);
   };
+
+  useEffect(()=>{
+    console.log(" app component mounted welllllll")
+  },[])
 
   const addTask = () => {
     const task = {
@@ -56,7 +60,6 @@ function App() {
           onChange={(something) => {
             setHello(
               something.target.value,
-              console / console.log(something.target.value)
             );
           }}
           type="text"
@@ -144,6 +147,15 @@ function App() {
           })}
         </div>
       </div>
+
+
+      {/* cat fact */}
+          <div className="textinput">
+            <h1>cat fact</h1>
+            <button>show fact</button>
+          </div>
+
+
     </div> // close App
   );
 }

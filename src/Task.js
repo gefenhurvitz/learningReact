@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Task = (props) => {
+
+    useEffect(()=>{
+        console.log(" task component mounted")
+
+        return () => {
+            console.log("task component unmounted")
+        }
+      },[])
+
+
   return (
     <div className={props.isDone === false ? "task" : "taskDone"}>
       <h1>name: {props.taskName}</h1>
