@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Task from "./Task";
-// import { User } from "./User";
+import axios from "axios";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
 
 function App() {
   const [hello, setHello] = useState("");
@@ -19,9 +21,9 @@ function App() {
     setNewTask(e.target.value);
   };
 
-  useEffect(()=>{
-    console.log(" app component mounted welllllll")
-  },[])
+  useEffect(() => {
+    console.log(" app component mounted welllllll");
+  }, []);
 
   const addTask = () => {
     const task = {
@@ -50,17 +52,59 @@ function App() {
     );
   };
 
+  // cat fact
+
+  const [catFact, setCatFact] = useState("");
+
+  const fetchCatFact = () => {
+    axios.get("https://catfact.ninja/fact").then((res) => {
+      console.log(res.data);
+      setCatFact(res.data.fact);
+    });
+  };
+
+  // input name
+  const [inputName, setInputName] = useState("");
+  const [ageName, setAgeName] = useState("");
+
+  const fetchDadaName = () => {
+    axios.get(`https://api.agify.io?name=${inputName}`).then((res) => {
+      console.log(res.excuse);
+      setAgeName(res.data);
+    });
+  };
+
+  //  excuser
+  // https://excuser.herokuapp.com/v1/excuse/family/
+
+  const [excuse, setExcuse] = useState("");
+
+  const fetchExcuse = (category) => {
+    axios
+      .get(`https://excuser.herokuapp.com/v1/excuse/${category}`)
+      .then((res) => {
+        console.log(res.data[0]);
+        setExcuse(res.data[0]);
+      });
+  };
+
   return (
-    //
     <div className="App">
+      {/* routes */}
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home/>} />
+        </Routes>
+      </Router>
+
+
+
       {/* input box */}
       <div className="textinput">
         <h1>{hello}</h1>
         <input
           onChange={(something) => {
-            setHello(
-              something.target.value,
-            );
+            setHello(something.target.value);
           }}
           type="text"
         />
@@ -148,14 +192,42 @@ function App() {
         </div>
       </div>
 
-
       {/* cat fact */}
-          <div className="textinput">
-            <h1>cat fact</h1>
-            <button>show fact</button>
-          </div>
+      <div className="textinput">
+        <h1>{catFact}</h1>
+        <button onClick={fetchCatFact}>show fact</button>
+      </div>
 
+      {/* predict age */}
+      <div className="textinput">
+        <input
+          onChange={(e) => {
+            setInputName(e.target.value);
+          }}
+        />
+        <h1>
+          {" "}
+          {ageName.name}'s predicted age is {ageName.age}
+        </h1>
+        <button onClick={fetchDadaName}>predict age</button>
+      </div>
 
+      {/* excuser random */}
+      <div className="textinput">
+        <h1>generate excuse</h1>
+        <button onClick={() => fetchExcuse("family")}>family</button>
+        <button
+          onClick={() => {
+            fetchExcuse("office");
+          }}
+        >
+          office
+        </button>
+
+        <h2>id: {excuse.id}</h2>
+        <h2>category: {excuse.category}</h2>
+        <h2>excuse: {excuse.excuse}</h2>
+      </div>
     </div> // close App
   );
 }
